@@ -44,8 +44,9 @@ var camera = new PiCam({mode: 'still'});
 camera.takePhoto({
   callback: function (err, imgBuffer) {
     if(err) {
-      return console.error(err)
+      return console.log(err)
     } else {
+      console.log(imgBuffer);
       console.log(imgBuffer.toString());
     }
   }

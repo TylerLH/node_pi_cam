@@ -1,6 +1,6 @@
 var socket = io.connect();
 var btn = document.getElementById('take-photo');
-var viewport = document.getElementById('#viewport');
+var viewport = document.getElementById('viewport');
 
 btn.onclick = function () {
   socket.emit('photoRequest');

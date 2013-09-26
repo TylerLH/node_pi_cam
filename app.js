@@ -39,22 +39,24 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 var PiCam = require('./lib/picam');
-var camera = new PiCam({mode: 'still'});
-
-camera.takePhoto({
-  callback: function (err, imgBuffer) {
-    if(err) {
-      console.log(err);
-      return;
-    } else {
-      console.log(imgBuffer);
-      console.log(imgBuffer.toString());
-    }
-  }
-})
-
+var camera = new PiCam();
 
 io.sockets.on('connection', function (socket) {
+
+  socket.on('photoRequest', function() {
+
+    camera.takePhoto({
+      callback: function (err, imgBuffer) {
+        if(err) {
+          console.log(err);
+          return;
+        } else {
+          socket.emit('photo', {image: imgBuffer.toString('base64') });
+        }
+      }
+    });
+  });
+
 });
 
 server.listen(app.get('port'), function(){
